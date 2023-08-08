@@ -1,0 +1,59 @@
+[gd_resource type="VisualShader" load_steps=6 format=3 uid="uid://d2rcvkc0memm1"]
+
+[ext_resource type="Texture2D" uid="uid://r05c8iehmtpn" path="res://TexturesCom_Grass0165_1_seamless_S.jpg" id="1_ikdkd"]
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_ntsdv"]
+texture = ExtResource("1_ikdkd")
+texture_type = 1
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_dica1"]
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeUVFunc" id="VisualShaderNodeUVFunc_2wj5k"]
+function = 1
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_g782h"]
+constant = 6.0
+
+[resource]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform sampler2D tex_frg_2 : source_color;
+
+
+
+void fragment() {
+// Input:3
+	vec2 n_out3p0 = UV;
+
+
+// FloatConstant:5
+	float n_out5p0 = 6.000000;
+
+
+// UVFunc:4
+	vec2 n_in4p2 = vec2(0.00000, 0.00000);
+	vec2 n_out4p0 = (n_out3p0 - n_in4p2) * vec2(n_out5p0) + n_in4p2;
+
+
+// Texture2D:2
+	vec4 n_out2p0 = texture(tex_frg_2, n_out4p0);
+
+
+// Output:0
+	ALBEDO = vec3(n_out2p0.xyz);
+
+
+}
+"
+nodes/fragment/0/position = Vector2(700, 100)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_ntsdv")
+nodes/fragment/2/position = Vector2(0, 140)
+nodes/fragment/3/node = SubResource("VisualShaderNodeInput_dica1")
+nodes/fragment/3/position = Vector2(-780, 200)
+nodes/fragment/4/node = SubResource("VisualShaderNodeUVFunc_2wj5k")
+nodes/fragment/4/position = Vector2(-340, 200)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatConstant_g782h")
+nodes/fragment/5/position = Vector2(-640, 340)
+nodes/fragment/connections = PackedInt32Array(2, 0, 0, 0, 3, 0, 4, 0, 4, 0, 2, 0, 5, 0, 4, 1)
